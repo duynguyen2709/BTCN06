@@ -8,7 +8,10 @@ module.exports.getUser = async (username) => {
             return [rows, fields];
         })
 
-    return res[0];
+    return {
+        username: res[0].username,
+        password: res[0].password
+    };
 }
 
 module.exports.createUser = async (username, password) => {
@@ -21,6 +24,6 @@ module.exports.createUser = async (username, password) => {
         .then(([rows, fields]) => {
             return [rows, fields];
         })
-        
+
     return res;
 }

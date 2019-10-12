@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var usersRouter = require('./routes/UserRoute');
+require('./authentication/passport');
 var app = express();
 
 // init MySQL Connection
