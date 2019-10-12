@@ -1,6 +1,14 @@
 const mysql = require('mysql2/promise');
+const nodeCleanup = require('node-cleanup');
 
 var conn = null;
+
+nodeCleanup(function (exitCode, signal) {
+    if (conn != null){
+        console.log("Cleanup Connection...");
+        conn.end();
+    }
+});
 
 module.exports.initConnection = async () => {
     conn = await mysql.createConnection({

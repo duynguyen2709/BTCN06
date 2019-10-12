@@ -7,5 +7,18 @@ module.exports.getUser = async (username) => {
             return [rows, fields];
         })
 
+    return res[0];
+}
+
+module.exports.createUser = async (username, password) => {
+    const [res, f] = await conn.getConnection()
+        .query('INSERT INTO User SET ?', {
+            username: username,
+            password: password
+        })
+        .then(([rows, fields]) => {
+            return [rows, fields];
+        })
+
     return res;
 }
