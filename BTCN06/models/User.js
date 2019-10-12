@@ -8,6 +8,9 @@ module.exports.getUser = async (username) => {
             return [rows, fields];
         })
 
+    if (!res[0])
+        return null;
+        
     return {
         username: res[0].username,
         password: res[0].password

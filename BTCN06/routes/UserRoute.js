@@ -6,7 +6,6 @@ var passport = require('passport');
 
 router.post('/user/register', UserController.registerUser);
 
-/* POST login. */
 router.post('/user/login', function (req, res, next) {
     passport.authenticate('local', {
         session: false
@@ -20,12 +19,25 @@ router.post('/user/login', function (req, res, next) {
             if (err) {
                 res.send(err);
             }
-            const token = jwt.sign(user, '1612145');
+            const token = jwt.sign({
+                username: user.username
+            }, '1612145');
             return res.json({
                 token
             });
         });
     })(req, res);
+});
+
+router.get('/me', function (req, res, next) {
+    passport.authenticate('jwt', {
+        session: false
+    }, (err, user, info) => {
+        if (err || !user) {
+            return res.send("JWT không hợp lệ.");
+        }
+        return res.send("NGƯỜI DÙNG HIỆN TẠI: " + user);
+    })(req, res, next);
 });
 
 module.exports = router;

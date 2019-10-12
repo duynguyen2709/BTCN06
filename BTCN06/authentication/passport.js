@@ -2,6 +2,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const UserModel = require('../models/User');
 const bcrypt = require('bcryptjs');
+const passportJWT = require("passport-jwt");
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 
 passport.use(new LocalStrategy({
         usernameField: 'username',
@@ -30,5 +33,14 @@ passport.use(new LocalStrategy({
 
             })
             .catch(err => cb(err));
+    }
+));
+
+passport.use(new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        secretOrKey: '1612145'
+    },
+    function (jwtPayload, next) {
+        next(null, jwtPayload.username);
     }
 ));
